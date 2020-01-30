@@ -10,7 +10,7 @@ var mode = "loginMode";
 
 //Associative array maps modes to page titles
 var modeToTitle = {"feedMode": "My Data",
-                   "roundsMode": "Family Page",
+                   "roundsMode": "Mode 2",
                    "coursesMode": "Hobbies",
                    "loginMode": "Welcome to my awesome website"};
 
