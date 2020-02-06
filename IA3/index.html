@@ -104,7 +104,7 @@ class="nonMenuItem fas fa-th-list"></span><span style="display:block;font-size:
 small">Add/view/edit data records</span></a>
 <a id="roundsMode" class="bottomBarBtn"><span style="display:block; padding-top:3px"
 class="nonMenuItem fas fa-history"></span><span style="display:block;font-size:
-small">Mode 2</span></a>
+small">Mode 2 (unimplemented)</span></a>
 <!-- <a id="coursesMode" class="bottomBarBtn"><span style="display:block; padding-top:3px"
 class="nonMenuItem fas fa-flag"></span><span style="display:block;font-size:
 small">Hobbies</span></a>  -->
@@ -177,8 +177,8 @@ small">Hobbies</span></a>  -->
       <table id="myRoundsTable" class="table table-hover"> 
         <thead class="thead-light"> 
         <th>Date</th> 
-        <th>Course</th> 
-        <th>Score</th> 
+        <th>Field Location</th> 
+        <th>Type of Outing</th> 
         <th>View/Edit...</th> 
         <th>Delete</th> 
         </thead> 
@@ -195,47 +195,44 @@ small">Hobbies</span></a>  -->
       <h1></h1>
       <form id="logRoundForm">
         <center>
+          <p>This page will allow you to fill out details of your throwing schedules for baseball. It will allow you to keep
+            track of what you have done so far and distinguish between what type of outing it was
+          </p>
           <label for="roundDate">Date:
               <input id="roundDate" class="form-control form-center" type="date" 
               required>
           </label>
           <p></p>
-          <label for="roundCourse">Course:
+          <label for="roundCourse">Field Location:
               <input id="roundCourse" class="form-control form-center" type="text" 
               placeholder="Course played" size="50" maxlength="50" required>
           </label>
           <p></p>
-          <label for="roundType">Type:
+          <label for="roundType">Type of Outing:
               <select id="roundType" name="roundType" class="form-control form-center">
-                <option value="practice" selected>Practice</option>
-                <option value="tournament">Tournament</option>
+                <option value="bullpen" selected>Bullpen</option>
+                <option value="intrasquad">Intrasquad</option>
+                <option value="game">Game</option>
               </select> 
           </label>
           <p></p>
-          <label for="roundHoles"># Holes:
+          <label for="roundHoles"># of Innings Thrown:
               <select id="roundHoles" name="roundHoles" class="form-control">
+                <option value="9">1</option>
+                <option value="9">2</option>
+                <option value="9">3</option>
+                <option value="9">4</option>
+                <option value="9">5</option>
+                <option value="9">6</option>
+                <option value="9">7</option>
+                <option value="9">8</option>
                 <option value="9">9</option>
-                <option value="18" selected>18</option>
               </select> 
           </label>
           <p></p>
-          <label for="roundStrokes"># Strokes:
+          <label for="roundStrokes"># of Pitches Thrown:
               <input id="roundStrokes" class="form-control form-center" type="number" 
-              placeholder="Course played" min="9" max="200" value="80" 
-              onChange="updateSGS()" required>
-          </label>
-          <p></p>
-          <label for="roundTime">Time:<br>
-              <input id="roundMinutes" type="number" size="3"
-              min="10" max="400" value="50" style="text-align: right"
-              onChange="updateSGS()" required> : 
-              <input id="roundSeconds" type="number" size="2"
-              min="0" max="60" value="00" onchange="changeSeconds()"
-              required>
-          </label>
-          <p></p>
-          <label for="roundSGS">Speedgolf Score:<br>
-              <input id="roundSGS" class="form-center" type="text" size="6" value="130:00" disabled>
+              placeholder="Course played" min="1" max="150" value="80" required>
           </label>
           <p></p>
           <label for="roundNotes">Notes:<br>
@@ -316,65 +313,6 @@ small">Hobbies</span></a>  -->
       <div w3-include-html="html/Hobbies-VideoGames.html" > </div>
     </div>
 <!-- ****************************************************************** -->
-
-
-    <!-- Page for logging a new round -->
-   <!-- <div id="logRoundDiv" class="roundsModeDiv paddedPage">
-     <h1></h1>
-      <form id="logRoundForm">
-        <center>
-          <label for="roundDate">Date:
-              <input id="roundDate" class="form-control form-center" type="date" 
-              required>
-          </label>
-          <p></p>
-          <label for="roundCourse">Course:
-              <input id="roundCourse" class="form-control form-center" type="text" 
-              placeholder="Course played" size="50" maxlength="50" required>
-          </label>
-          <p></p>
-          <label for="roundType">Type:
-              <select id="roundType" name="roundType" class="form-control form-center">
-                <option value="practice" selected>Practice</option>
-                <option value="tournament">Tournament</option>
-              </select> 
-          </label>
-          <p></p>
-          <label for="roundHoles"># Holes:
-              <select id="roundHoles" name="roundHoles" class="form-control">
-                <option value="9">9</option>
-                <option value="18" selected>18</option>
-              </select> 
-          </label>
-          <p></p>
-          <label for="roundStrokes"># Strokes:
-              <input id="roundStrokes" class="form-control form-center" type="number" 
-              placeholder="Course played" min="9" max="200" value="80" 
-              onChange="updateSGS()" required>
-          </label>
-          <p></p>
-          <label for="roundTime">Time:<br>
-              <input id="roundMinutes" type="number" size="3"
-              min="10" max="400" value="50" style="text-align: right"
-              onChange="updateSGS()" required> : 
-              <input id="roundSeconds" type="number" size="2"
-              min="0" max="60" value="00" onchange="changeSeconds()"
-              required>
-          </label>
-          <p></p>
-          <label for="roundSGS">Speedgolf Score:<br>
-              <input id="roundSGS" class="form-center" type="text" size="6" value="130:00" disabled>
-          </label>
-          <p></p>
-          <label for="roundNotes">Notes:<br>
-              <textarea id="roundNotes" class="form-control" rows="6" cols="75" placeholder="Enter round notes""></textarea>
-          </label>
-          <p></p>
-          <button id="submitBtn" type="submit" class="btn btn-primary btn-block btncolortheme" 
-            style="width:70%; font-size: 36px"><span id="saveIcon" class="fas fa-save">&nbsp;</span><span id="submitBtnLabel">Save</span></button>
-          </center>
-      </form>
-  </div> -->
 
    <!-- Page  for displaying and searching for courses -->
    <div id="coursesModeMainDiv"  class="coursesModeDiv paddedPage">

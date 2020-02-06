@@ -3,15 +3,6 @@
 //update the app in response to user interaction.
 //
 
-// 000000000000000000000000000000000000000000000000000000000000000000000000
-// FIX PLUS BUTTON SHOWING UP ON EDIT PAGE SIDE MENU SCREEN
-// FIX BOTTOM BUTTON ON EDIT PAGE SIDE MENU SCREEN
-// FIX MODAL CSS PAGE (AND OTHERS MAYBE?)
-// CHANGE / ADD OTHER SMALL FEATURES????
-// CHECK ASSIGNMENT DETAILS FOR ANYTHING EXTRA
-// 0000000000000000000000000000000000000000000000000000000000000000000000000
-
-
   //startUp -- This function sets up the initial state of the app: Login page is
   //visible, bottom bar is invisible, all menu items invisible except feed items,
   //menu bottom disabled, UI mode = login
@@ -107,6 +98,7 @@ document.getElementById("menuBtn").addEventListener("click",function(e) {
     console.log("MODE: = " + mode);
     document.getElementById("major").classList.remove("menuItemSelected"); 
     document.getElementById("feed").classList.add("menuItemSelected");
+    document.getElementById("floatBtnDiv").style.display = "block";
     //Hide current page
     var currModePages = document.getElementsByClassName(mode + "Div");
     for (var i = 0; i < currModePages.length; ++i) {
@@ -136,7 +128,13 @@ document.getElementById("menuBtn").addEventListener("click",function(e) {
   // (of class sideMenuItem) is actually a redirect to another page.  
   var sideMenuItemClick = function() {
     if (item != this.id) {
-      if ((this.id != "aboutBtn") && (this.id != "logOutBtn")){
+      if (this.id == "major") {logRound();}
+      else if ((this.id != "aboutBtn") && (this.id != "logOutBtn")){
+        
+        if (this.id == "feed") {
+          document.getElementById("floatBtnDiv").style.display = "block";
+          document.getElementById("bottomBar").classList.remove("disabledButton");
+        }
         var prevItem = item;
         item = this.id;
         console.log("prevItem: " + prevItem);
@@ -151,20 +149,6 @@ document.getElementById("menuBtn").addEventListener("click",function(e) {
         //hide other page
         document.getElementById(prevItem + "ModeMainDiv").style.display = "none";
       }
-      //dont need to change the menu items
-
-      // else { //this.id is either "aboutBtn" or "logOutBtn"
-      //   console.log("item: " + item);
-      //   if (this.id != "aboutBtn"){
-      //     document.getElementById(item + "ModeMainDiv").style.display = "block";
-      //   }
-      //   else {
-      //     item = "feed";
-      //     document.getElementById("feedModeMainDiv").style.display = "block";
-      //   }
-      // }
-
-
     }
   }
 
@@ -306,9 +290,6 @@ function clearRoundForm() {
   document.getElementById("roundType").value = "practice";
   document.getElementById("roundHoles").value = "18";
   document.getElementById("roundStrokes").value = "80";
-  document.getElementById("roundMinutes").value = "50";
-  document.getElementById("roundSeconds").value = "00";
-  document.getElementById("roundSGS").value = "130:00";
   document.getElementById("roundNotes").value = "";
 }
 
@@ -321,9 +302,6 @@ function fillRoundForm(round) {
   document.getElementById("roundType").value = round.type;
   document.getElementById("roundHoles").value = round.numHoles;
   document.getElementById("roundStrokes").value = round.strokes;
-  document.getElementById("roundMinutes").value = round.minutes;
-  document.getElementById("roundSeconds").value = round.seconds;
-  document.getElementById("roundSGS").value = round.SGS;
   document.getElementById("roundNotes").value = round.notes;
 }
 
@@ -349,6 +327,7 @@ function transitionToLockedPage(lockedPageId, lockedPageTitle) {
   document.getElementById("menuBtnIcon").classList.add("fa-arrow-left");
   //When pageLocked is true, the bottom bar buttons are disabled
   document.getElementById("bottomBar").classList.add("disabledButton");
+  document.getElementById("floatBtnDiv").style.display = "none";
  }
  
 //saveRoundData -- Callback function called from logRoundForm's submit handler.
@@ -374,9 +353,6 @@ function saveRoundData() {
   temp = document.getElementById("roundHoles");
   thisRound.numHoles = temp.options[temp.selectedIndex].value;
   thisRound.strokes = document.getElementById("roundStrokes").value;
-  thisRound.minutes = document.getElementById("roundMinutes").value;
-  thisRound.seconds = document.getElementById("roundSeconds").value;
-  thisRound.SGS = document.getElementById("roundSGS").value;
   thisRound.notes = document.getElementById("roundNotes").value;
 
   //Determine whether we're saving new or editing existing round, saving accordingly
@@ -436,10 +412,8 @@ function addToOrUpdateRoundTable(add, roundIndex) {
   }
   //Add/update row with five cols to table
   roundRow.innerHTML = "<td>" + roundData.date + "</td><td>" +
-   roundData.course + "</td><td>" + roundData.SGS + 
-   " (" + roundData.strokes +
-   " in " + roundData.minutes + ":" + roundData.seconds + 
-   ")</td>" +
+   roundData.course + "</td><td>" + roundData.type + 
+   "</td>" +
    "<td><button onclick='editRound(" + roundIndex + ")'><span class='fas fa-eye'>" +
    "</span>&nbsp;<span class='fas fa-edit'></span></button></td>" +
    "<td><button onclick='confirmDelete(" + roundIndex + ")'>" +
@@ -556,25 +530,5 @@ function editRound(roundIndex) {
 
   //Transition to round view/edit page with "Update" label for form submit button
   document.getElementById("submitBtnLabel").textContent = "Update Round Data";
-  transitionToLockedPage("majorModeMainDiv","View/Edit Round");
-}
-
-//ADDITIONAL AUXILARY FUNCTIONS GO HERE
-//updateSGS --When the strokes, minutes or seconds fields are updated, we need
-//to update the speedgolf score accordingly.
-function updateSGS() {
-  var strokes = document.getElementById("roundStrokes").valueAsNumber;
-  var minutes = document.getElementById("roundMinutes").valueAsNumber;
-  var seconds = document.getElementById("roundSeconds").value;
-  document.getElementById("roundSGS").value = (strokes + minutes) + ":" + seconds;
-}
-//changeSeconds - When the seconds fields is updated, we need to ensure that the
-//nds field of the round time is zero-padded. We also need to call updateSGS to
-//update the speedgolf score based on the new seconds value.
-function changeSeconds() {
-  var seconds = document.getElementById("roundSeconds").value;
-  if (seconds.length < 2) {
-    document.getElementById("roundSeconds").value = "0" + seconds;
-  }
-  updateSGS();
+  transitionToLockedPage("majorModeMainDiv","View/Edit");
 }
