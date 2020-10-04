@@ -1,0 +1,5 @@
+meetings thursdays @ 8:25am
+
+link: wsu.zoom.us
+zoom_id: 993556802
+password: 147032
